@@ -20,11 +20,10 @@ const io = require('socket.io')(httpServer, {
 
 app.use(cors());
 
-io.on("connect", (socket) => {
-    socket.emit('connectionReply', { errno: 0, data: "connection esdablished successfully!" });
-});
-
 io.on('connection', function (socket) {
+    socket.on("open", msg=> {
+        io.emit('connectionReply', { errno: 0, data: "connection esdablished successfully!" });
+    });
     socket.on("scanResult", (msg) => {
         // do something on data
         io.emit('scanResultReply', { errno: 0, data: { success: true, msg } });
