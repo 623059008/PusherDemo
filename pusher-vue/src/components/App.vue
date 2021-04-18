@@ -1,20 +1,19 @@
 <template>
   <div id="app">
     <div class="banner">
-      <img
-        src="https://vuejs.org/images/logo.png"
-        width="100"
-        alt="vue"
-        class="logo"
-      />
-      <h1>Welcome to Vue.js</h1>
+      <h1>Pusher Demo</h1>
+      <div id="result" class="button-group">
+        <div><button v-on:click="socket.emit('scanProgress', {data:111})">send scan progress</button></div>
+        <div id='progress'> Progress: {{progress || '暂无'}} </div>
+        <div><button v-on:click="socket.emit('scanResult', {data:111})">send scan result</button></div>
+        <div> Result: {{result || ''}} </div>
+      </div>
     </div>
-    <div class="bottom">
-      To get started, edit <code>./src/components/App.vue</code> and save to
-      reload.<br />
-      <span class="fade">
-        Checkout <code>./README.md</code> for more usages.
-      </span>
+    <div class="bottom"> 
+      <pre>
+        socket
+      </pre>
+      
     </div>
   </div>
 </template>
@@ -22,6 +21,10 @@
 <script>
 export default {
   name: "app",
+  data: {
+    progress: 'no',
+    result: ''
+  }
 };
 </script>
 
@@ -63,6 +66,22 @@ code::after {
   padding: 50px 10px;
 }
 
+.button-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+  align-content: center;
+  
+}
+.button-group button {
+  width: 200px;
+  margin-right: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .bottom {
   padding: 80px 10px;
   font-size: 24px;
@@ -73,16 +92,4 @@ code::after {
   font-size: 14px;
 }
 
-.logo {
-  animation: spin 4s 1s infinite linear;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>

@@ -20,7 +20,7 @@
     "normalize.css": "^7.0.0",
     "object-assign": "^4.1.1",
     "promise-polyfill": "^6.0.2",
-    "vue-socket.io": "^3.0.10"
+    "socket.io-client": "4.0.1"
   },
   "devDependencies": {
     "poi": "^9.0.0",

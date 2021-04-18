@@ -22,14 +22,17 @@ app.use(cors());
 
 io.on('connection', function (socket) {
     socket.on("open", msg=> {
+        console.log('[socket][open] message: ', msg);
         io.emit('connectionReply', { errno: 0, data: "connection esdablished successfully!" });
     });
     socket.on("scanResult", (msg) => {
         // do something on data
+        console.log('[socket][scanResult] message: ', msg);
         io.emit('scanResultReply', { errno: 0, data: { success: true, msg } });
     });
     socket.on("scanProgress", (msg) => {
         // do something on data
+        console.log('[socket][scanProgress] message: ', msg);
         socket.emit('scanProgressReply', { errno: 0, data: { success: true, msg } });
     });
 });

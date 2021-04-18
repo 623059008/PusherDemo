@@ -1,19 +1,26 @@
 import Vue from 'vue'
 import App from './components/App.vue'
-import VueSocketIO from "vue-socket.io";
+import { io } from "socket.io-client";
 
 Vue.config.productionTip = false
 
-Vue.use(
-  new VueSocketIO({
-    debug: true,
-    connection: "localhost:8080",
-  })
-);
+const socket = io("http://localhost:8080");
+
 new Vue({
+  data: {
+    socket: socket,
+    progress: 'no',
+    result: ''
+  },
   el: '#app',
   mounted() {
-    this.$socket.emit('connect', {data: 123});
+    socket.emit('open', {data: 123});
+    socket.on('scanResultReply', msg => {
+      console.log(msg);
+    });
+    socket.on('scanProgressReply', msg => {
+      console.log(msg);
+    });
   },
   render: h => h(App)
 })
