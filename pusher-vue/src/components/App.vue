@@ -3,28 +3,59 @@
     <div class="banner">
       <h1>Pusher Demo</h1>
       <div id="result" class="button-group">
-        <div><button v-on:click="socket.emit('scanProgress', {data:111})">send scan progress</button></div>
-        <div id='progress'> Progress: {{progress || '暂无'}} </div>
-        <div><button v-on:click="socket.emit('scanResult', {data:111})">send scan result</button></div>
-        <div> Result: {{result || ''}} </div>
+        <div>
+          <button v-on:click="socket.emit('scanProgress', { data: 'scan progress' })">
+            send scan progress
+          </button>
+        </div>
+        <div id="progress">Progress: {{ progress || "暂无" }}</div>
+        <div>
+          <button v-on:click="socket.emit('scanResult', { data: 'send result' })">
+            send scan result
+          </button>
+        </div>
+        <div>Result: {{ result || "" }}</div>
       </div>
     </div>
-    <div class="bottom"> 
+    <div class="bottom">
       <pre>
-        socket
+        <code>
+        # socket.io Events
+        socket.on('scanResultReply', msg=>{
+          console.log(msg);
+        })
+        socket.on('scanProgressReply', msg=>{
+          console.log(msg);
+        })
+        </code>
       </pre>
-      
     </div>
   </div>
 </template>
 
 <script>
+import { io } from "socket.io-client";
+const socket = io("http://localhost:8080");
 export default {
   name: "app",
-  data: {
-    progress: 'no',
-    result: ''
-  }
+  data: () => {
+    return {
+      progress: "no progress",
+      result: "waiting result",
+      socket: socket,
+    };
+  },
+  mounted() {
+    socket.emit('open', {data: 123});
+    socket.on('scanResultReply', msg => {
+      console.log(msg);
+      this.result = JSON.stringify(msg);
+    });
+    socket.on('scanProgressReply', msg => {
+      console.log(msg);
+      this.progress = JSON.stringify(msg);
+    });
+  },
 };
 </script>
 
@@ -73,7 +104,6 @@ code::after {
   padding: 10px;
   justify-content: center;
   align-content: center;
-  
 }
 .button-group button {
   width: 200px;
@@ -86,10 +116,10 @@ code::after {
   padding: 80px 10px;
   font-size: 24px;
   font-weight: 300;
+  text-align: left;
 }
 
 .fade {
   font-size: 14px;
 }
-
 </style>

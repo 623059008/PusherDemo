@@ -2,6 +2,24 @@
 A pusher demo based on pusher and slanger.
 
 
+# Vue + Socket.IO
+## start a socket.io server
+run a websocket server on 8080.
+```
+npm i
+npm run server
+```
+
+## run vue client
+```
+cd pusher-vue
+npm i
+npm run dev
+```
+![pusher-vue](images/pusher-vue.png)
+![socket-msg](images/socket-msg.png)
+
+# Slanger + Pusher
 ## Apply Pusher Account
 Register a pusher account to get AK, SK.
 
