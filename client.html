@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+  <title>Pusher Demo</title>
+  <script src="./pusher.min.js"></script>
+  <script>
+    const config = {
+      app_id: "1190032",
+      key: "7123026cc4270572d5f9",
+      secret: "622dd75cfea01f55dc1c",
+      cluster: "ap1"
+    };
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    var pusher = new Pusher(config.key, {
+      cluster: config.cluster,
+      forceTLS: true,
+    });
+
+    var channel = pusher.subscribe('scan');
+    channel.bind('progress', function(data) {
+      // receive scan progress
+      console.log(JSON.stringify(data));
+    });
+    channel.bind('result', function(data) {
+      // receive scan result
+      console.log(JSON.stringify(data));
+    });
+  </script>
+</head>
+<body>
+  <h1>Pusher Demo</h1>
+  <p>
+    Pusher Demo.
+    Subscribe for scan channel.
+    Bind progress and result events.
+  </p>
+</body>
